@@ -2,21 +2,29 @@ import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
+import { ToastContainer, toast } from 'react-toastify';
+
+const rx_live = /^[+-]?\d*(?:[.,]\d*)?$/;
 
 export function InputForm(props) {
   const [values, setValues] = useState({
-    width: 0,
-    height: 0,
+    width: '',
+    height: '',
   });
   const [visible, setVisible] = useState(true);
 
   const handleInputChange = (e) => {
+    const re = /^[0-9\b]+$/;
+
     const { name, value } = e.target;
-    setValues({ ...values, [name]: value });
+    if (e.target.value === '' || re.test(e.target.value)) {
+      setValues({ ...values, [name]: value });
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     handleValues(values);
     setVisible(false);
   };
@@ -53,6 +61,7 @@ export function InputForm(props) {
             type='text'
             value={values.width}
             name='width'
+            pattern='[+-]?\d+(?:[.,]\d+)?'
             onChange={handleInputChange}
           />
         </Form.Group>
@@ -63,6 +72,7 @@ export function InputForm(props) {
             type='text'
             value={values.height}
             name='height'
+            pattern='[+-]?\d+(?:[.,]\d+)?'
             onChange={handleInputChange}
           />
         </Form.Group>
