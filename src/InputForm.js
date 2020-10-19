@@ -50,12 +50,25 @@ export function InputForm(props) {
               right: 0,
               bottom: 0,
               backgroundColor: 'white',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
             }
           : { display: 'none' }
       }
     >
-      <form onSubmit={handleSubmit}>
-        <Form.Group className='form'>
+      <form
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          padding: '40px 20px',
+        }}
+        onSubmit={handleSubmit}
+      >
+        <Form.Group
+          style={{ display: 'flex', justifyContent: 'space-between' }}
+        >
           <Form.Label>Width (provide a number)</Form.Label>
           <Form.Control
             type='text'
@@ -66,7 +79,7 @@ export function InputForm(props) {
           />
         </Form.Group>
 
-        <Form.Group controlId='formBasicPassword'>
+        <Form.Group>
           <Form.Label>Height (provide a number)</Form.Label>
           <Form.Control
             type='text'
