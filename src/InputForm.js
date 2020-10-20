@@ -2,14 +2,11 @@ import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import { ToastContainer, toast } from 'react-toastify';
-
-const rx_live = /^[+-]?\d*(?:[.,]\d*)?$/;
 
 export function InputForm(props) {
   const [values, setValues] = useState({
-    width: '',
-    height: '',
+    size: '',
+    steps: '',
   });
   const [visible, setVisible] = useState(true);
 
@@ -18,7 +15,9 @@ export function InputForm(props) {
 
     const { name, value } = e.target;
     if (e.target.value === '' || re.test(e.target.value)) {
-      setValues({ ...values, [name]: value });
+      if (e.target.value <= 15) {
+        setValues({ ...values, [name]: value });
+      }
     }
   };
 
@@ -31,8 +30,8 @@ export function InputForm(props) {
 
   const handleValues = (values) => {
     props.onValueChanges({
-      width: values.width,
-      height: values.height,
+      size: values.size,
+      steps: values.steps,
     });
   };
 
@@ -66,25 +65,23 @@ export function InputForm(props) {
         }}
         onSubmit={handleSubmit}
       >
-        <Form.Group
-          style={{ display: 'flex', justifyContent: 'space-between' }}
-        >
-          <Form.Label>Width (provide a number)</Form.Label>
+        <Form.Group>
+          <Form.Label>Size (provide a number under 16)</Form.Label>
           <Form.Control
             type='text'
-            value={values.width}
-            name='width'
+            value={values.size}
+            name='size'
             pattern='[+-]?\d+(?:[.,]\d+)?'
             onChange={handleInputChange}
           />
         </Form.Group>
 
         <Form.Group>
-          <Form.Label>Height (provide a number)</Form.Label>
+          <Form.Label>Steps (provide a number under 16)</Form.Label>
           <Form.Control
             type='text'
-            value={values.height}
-            name='height'
+            value={values.steps}
+            name='steps'
             pattern='[+-]?\d+(?:[.,]\d+)?'
             onChange={handleInputChange}
           />

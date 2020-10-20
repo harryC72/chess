@@ -12,15 +12,15 @@ const KEY = {
 };
 
 function App() {
-  const [values, setValues] = useState({
-    width: 0,
-    height: 0,
-  });
+  const [size, setSize] = useState(0);
+  const [steps, setSteps] = useState(0);
 
   const [coordinates, setCoordinates] = useState({
     x: 0,
     y: 0,
   });
+
+  const canvasSize = steps * 39;
 
   const handleKeyDown = useCallback(
     (e) => {
@@ -32,7 +32,7 @@ function App() {
             ...coordinates,
             x: coordinates.x,
             y:
-              coordinates.y > 0 && coordinates.y < values.height
+              coordinates.y > 0 && coordinates.y < canvasSize
                 ? coordinates.y - 39
                 : (coordinates.y = 0),
           });
@@ -43,9 +43,9 @@ function App() {
             ...coordinates,
             x: coordinates.x,
             y:
-              coordinates.y < values.height - 39
+              coordinates.y < canvasSize - 39
                 ? coordinates.y + 39
-                : (coordinates.y = values.height - 39),
+                : (coordinates.y = canvasSize - 39),
           });
           break;
         case KEY.LEFT:
@@ -53,7 +53,7 @@ function App() {
           setCoordinates({
             ...coordinates,
             x:
-              coordinates.x > 0 && coordinates.x < values.width
+              coordinates.x > 0 && coordinates.x < canvasSize
                 ? coordinates.x - 39
                 : (coordinates.x = 0),
             y: coordinates.y,
@@ -64,9 +64,9 @@ function App() {
           setCoordinates({
             ...coordinates,
             x:
-              coordinates.x < values.width - 39
+              coordinates.x < canvasSize - 39
                 ? coordinates.x + 39
-                : (coordinates.x = values.width - 39),
+                : (coordinates.x = canvasSize - 39),
             y: coordinates.y,
           });
           break;
@@ -75,7 +75,7 @@ function App() {
       }
     },
 
-    [coordinates, values.height, values.width]
+    [canvasSize, coordinates]
   );
 
   React.useEffect(() => {
@@ -88,29 +88,27 @@ function App() {
   }, [handleKeyDown]);
 
   const handleValues = (inputValues) => {
-    setValues({
-      width: inputValues.width,
-      height: inputValues.height,
-    });
+    setSize(inputValues.size);
+    setSteps(inputValues.steps);
   };
 
   return (
     <div>
       <InputForm onValueChanges={handleValues} />
       <Screen
-        width={values.width}
-        height={values.height}
+        width={canvasSize}
+        height={canvasSize}
         ratio={window.devicePixelRatio || 1}
         onKeyDown={handleKeyDown}
       >
         <Cube
           x={coordinates.x}
           y={coordinates.y}
-          height={values.height}
-          width={values.width}
+          height={canvasSize}
+          width={canvasSize}
         />
       </Screen>
-      <Chessboard />
+      <Chessboard size={size} />
     </div>
   );
 }

@@ -1,11 +1,11 @@
 import React from 'react';
 import { Tyle } from './Tyle';
 
-export const Row = ({ order }) => {
+export const Row = ({ order, size }) => {
   var rows = [];
   let color;
   let background;
-  for (var i = 0; i < 10; i++) {
+  for (var i = 0; i < size; i++) {
     if (order === 'true') {
       if (i % 2 === 0) {
         color = 'black';
